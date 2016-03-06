@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RobotKit;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,9 +23,51 @@ namespace Aurora_Catch
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        Sphero mySphero;
+
         public MainPage()
         {
             this.InitializeComponent();
+            setupSphero();
+        }
+
+        private void setupSphero()
+        {
+            RobotProvider provider = RobotProvider.GetSharedProvider();
+            provider.DiscoveredRobotEvent += OnSpheroDiscovered;
+            provider.NoRobotsEvent += OnNoSpheroEvent;
+            provider.ConnectedRobotEvent += OnSpheroConnected;
+            provider.FindRobots();
+        }
+
+
+        private void OnSpheroDiscovered(object sender, Robot e)
+        {
+            blkStatus.Text = "Discovered Sphero: " + e.BluetoothName;
+
+            if(mySphero == null)
+            {
+                RobotProvider provider = RobotProvider.GetSharedProvider();
+                provider.ConnectRobot(e);
+                mySphero = (Sphero)e;
+            }
+        }
+
+        private void OnSpheroConnected(object sender, Robot e)
+        {
+            blkStatus.Text = "Connected to Sphero: " + e.BluetoothName;
+        }
+
+        private void OnNoSpheroEvent(object sender, EventArgs e)
+        {
+            blkStatus.Text = "No Sphero connected :(";
+        }
+
+        private void btnColor_Click(object sender, RoutedEventArgs e)
+        {
+            mySphero.SetRGBLED(255, 0, 0);
         }
     }
+
+
 }

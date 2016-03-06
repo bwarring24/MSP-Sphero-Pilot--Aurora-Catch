@@ -129,6 +129,11 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="RobotKit">
+      <HintPath>..\..\..\..\..\..\Downloads\Sphero-Win-SDK-master\Sphero-Win-SDK-master\samples\BasicDriveApp\RobotKit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -24,5 +24,10 @@
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <DeviceCapability Name="bluetooth.rfcomm">
+      <Device Id="any">
+        <Function Type="serviceId:00001101-0000-1000-8000-00805F9B34FB" />
+      </Device>
+    </DeviceCapability>
   </Capabilities>
 </Package>
