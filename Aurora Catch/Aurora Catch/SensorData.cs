@@ -9,11 +9,22 @@ namespace Aurora_Catch
 {
     class SensorData
     {
-        public accelerometerData accelerometer;
+        public List<accelerometerData> accelerometer;
+        public List<quaternionData> quaternion;
+        public List<velocityData> velocity;
+        public List<locationData> location;
+        public List<gyrometerData> gryometer;
+        public List<attitudeData> attitude;
 
-        public SensorData(AccelerometerReading dataAccelerometer)
+        public SensorData(AccelerometerReading dataAccelerometer, QuaternionReading dataQuarternion, VelocityReading dataVelocity, LocationReading dataLocation, GyrometerReading dataGryometer, AttitudeReading dataAttitude)
         {
-            accelerometer = new accelerometerData(dataAccelerometer);
+            accelerometer.Add(new accelerometerData(dataAccelerometer));
+            quaternion.Add(new quaternionData(dataQuarternion));
+            velocity.Add(new velocityData(dataVelocity));
+            location.Add(new locationData(dataLocation));
+            gryometer.Add(new gyrometerData(dataGryometer));
+            attitude.Add(new attitudeData(dataAttitude));
+
         }
     }
 
@@ -80,38 +91,38 @@ namespace Aurora_Catch
         }
     }
 
-    class LocationData
+    class locationData
     {
         public float x { get; set; }
         public float y { get; set; }
 
-        public LocationData(float dataX, float dataY)
+        public locationData(float dataX, float dataY)
         {
             x = dataX;
             y = dataY;
         }
 
-        public LocationData(LocationReading dataLocation)
+        public locationData(LocationReading dataLocation)
         {
             x = dataLocation.X;
             y = dataLocation.Y;
         }
     }
 
-    class GyrometerData
+    class gyrometerData
     {
         public float x { get; set; }
         public float y { get; set; }
         public float z { get; set; }
 
-        public GyrometerData(float dataX, float dataY, float dataZ)
+        public gyrometerData(float dataX, float dataY, float dataZ)
         {
             x = dataX;
             y = dataY;
             z = dataZ;
         }
 
-        public GyrometerData(GyrometerReading dataGyrometer)
+        public gyrometerData(GyrometerReading dataGyrometer)
         {
             x = dataGyrometer.X;
             y = dataGyrometer.Y;
@@ -119,20 +130,20 @@ namespace Aurora_Catch
         }
     }
 
-    class AttitudeData
+    class attitudeData
     {
         public float pitch { get; set; }
         public float roll { get; set; }
         public float yaw { get; set; }
 
-        public AttitudeData(float dataPitch, float dataRoll, float dataYaw)
+        public attitudeData(float dataPitch, float dataRoll, float dataYaw)
         {
             pitch = dataPitch;
             roll = dataRoll;
             yaw = dataYaw;
         }
 
-        public AttitudeData(AttitudeReading dataAttitude)
+        public attitudeData(AttitudeReading dataAttitude)
         {
             pitch = dataAttitude.Pitch;
             roll = dataAttitude.Roll;
