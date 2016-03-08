@@ -12,7 +12,26 @@
             <TextBlock FontSize="26" Text="Status: " />
             <TextBlock Name="blkStatus" FontSize="20" />
         </StackPanel>
+        
+        <StackPanel Orientation="Horizontal">
+            <Button Name="btnColor" Content="Change Color" Click="btnColor_Click" />
+            <Button Name="btnStop" Content="Stop" Margin="10,0,0,0" Click="btnStop_Click" />
+        </StackPanel>
 
-        <Button Name="btnColor" Content="Change Color" Click="btnColor_Click" />
+
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical">
+                <TextBlock FontSize="26" Text="X: " />
+                <TextBlock Name="blkAccX" FontSize="26" Text="X: " />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="26" Text="X: " />
+                <TextBlock Name="blkAccY"  FontSize="26" Text="X: " />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="26" Text="X: " />
+                <TextBlock Name="blkAccZ"  FontSize="26" Text="X: " />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>

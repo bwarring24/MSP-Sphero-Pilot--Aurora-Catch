@@ -24,6 +24,8 @@ namespace Aurora_Catch
     public sealed partial class MainPage : Page
     {
         Sphero mySphero;
+        SensorData sensors;
+        DispatcherTimer timer = new DispatcherTimer();
 
         public MainPage()
         {
@@ -40,7 +42,6 @@ namespace Aurora_Catch
             provider.FindRobots();
         }
 
-
         private void OnSpheroDiscovered(object sender, Robot e)
         {
             blkStatus.Text = "Discovered Sphero: " + e.BluetoothName;
@@ -56,6 +57,14 @@ namespace Aurora_Catch
         private void OnSpheroConnected(object sender, Robot e)
         {
             blkStatus.Text = "Connected to Sphero: " + e.BluetoothName;
+
+            // Lets go ahead and create all of our data stream methods
+            mySphero.SensorControl.AccelerometerUpdatedEvent += SensorControl_AccelerometerUpdatedEvent;
+            mySphero.SensorControl.AttitudeUpdatedEvent += SensorControl_AttitudeUpdatedEvent;
+            mySphero.SensorControl.GyrometerUpdatedEvent += SensorControl_GyrometerUpdatedEvent;
+            mySphero.SensorControl.LocationUpdatedEvent += SensorControl_LocationUpdatedEvent;
+            mySphero.SensorControl.QuaternionUpdatedEvent += SensorControl_QuaternionUpdatedEvent;
+            mySphero.SensorControl.VelocityUpdatedEvent += SensorControl_VelocityUpdatedEvent;
         }
 
         private void OnNoSpheroEvent(object sender, EventArgs e)
@@ -63,11 +72,34 @@ namespace Aurora_Catch
             blkStatus.Text = "No Sphero connected :(";
         }
 
-        private void btnColor_Click(object sender, RoutedEventArgs e)
+        private void SensorControl_VelocityUpdatedEvent(object sender, VelocityReading e)
         {
-            mySphero.SetRGBLED(255, 0, 0);
+            sensors.velocity.Add(new velocityData(e));
+        }
+
+        private void SensorControl_QuaternionUpdatedEvent(object sender, QuaternionReading e)
+        {
+            sensors.quaternion.Add(new quaternionData(e));
+        }
+
+        private void SensorControl_LocationUpdatedEvent(object sender, LocationReading e)
+        {
+            sensors.location.Add(new locationData(e));
+        }
+
+        private void SensorControl_GyrometerUpdatedEvent(object sender, GyrometerReading e)
+        {
+            sensors.gryometer.Add(new gyrometerData(e));
+        }
+
+        private void SensorControl_AttitudeUpdatedEvent(object sender, AttitudeReading e)
+        {
+            sensors.attitude.Add(new attitudeData(e));
+        }
+
+        private void SensorControl_AccelerometerUpdatedEvent(object sender, AccelerometerReading e)
+        {
+            sensors.accelerometer.Add(new accelerometerData(e));
         }
     }
-
-
 }
