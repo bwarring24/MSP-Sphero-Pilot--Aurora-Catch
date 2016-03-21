@@ -7,11 +7,61 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary 
+                  Source="Styles.xaml">
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+
+        <Button Name="btnHamburger" Style="{StaticResource btnHamburger}" Background="Gray" Click="btnHamburger_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="&#xE700;" Style="{StaticResource blkHamburgerIcon}" />
+            </StackPanel>
+        </Button>
+
+
+        <SplitView Name="spltHamburger" Grid.Row="1" Grid.RowSpan="2" CompactPaneLength="50" DisplayMode="CompactInline" OpenPaneLength="175" IsPaneOpen="False">
+            <SplitView.Pane>
+                <StackPanel Background="Gray">
+                    <Button Name="btn" Style="{StaticResource btnHamburger}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE102;" Style="{StaticResource blkHamburgerIcon}" />
+                            <TextBlock Text="Play" Style="{StaticResource blkHamburgerDescription}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Name="btnReplay" Style="{StaticResource btnHamburger}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE8EE;" Style="{StaticResource blkHamburgerIcon}" />
+                            <TextBlock Text="Replay" Style="{StaticResource blkHamburgerDescription}" />
+                        </StackPanel>
+                    </Button>
+                    <Button Name="btnSettings" Grid.Row="2" Style="{StaticResource btnHamburger}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE713;" Style="{StaticResource blkHamburgerIcon}" />
+                            <TextBlock Text="Settings" Style="{StaticResource blkHamburgerDescription}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <StackPanel>
+                    <ToggleSwitch Name="swtConnect" Toggled="swtConnect_Toggled"  />
+
+                    <Slider Name="sldOrientation" Minimum="0" Maximum="360" StepFrequency="1" ValueChanged="sldOrientation_ValueChanged" PointerExited="sldOrientation_PointerExited"   />
+                </StackPanel>
+            </SplitView.Content>
+        </SplitView>
     </Grid>
 </Page>

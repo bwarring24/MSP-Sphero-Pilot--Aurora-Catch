@@ -23,83 +23,63 @@ namespace Aurora_Catch
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        Sphero mySphero;
-        SensorData sensors;
+
+        SpheroManager sp;
         DispatcherTimer timer = new DispatcherTimer();
 
         public MainPage()
         {
             this.InitializeComponent();
-            setupSphero();
+            sp = new SpheroManager();
+            DataContext = sp;
+
         }
 
-        private void setupSphero()
+        private void swtConnect_Toggled(object sender, RoutedEventArgs e)
         {
-            RobotProvider provider = RobotProvider.GetSharedProvider();
-            provider.DiscoveredRobotEvent += OnSpheroDiscovered;
-            provider.NoRobotsEvent += OnNoSpheroEvent;
-            provider.ConnectedRobotEvent += OnSpheroConnected;
-            provider.FindRobots();
-        }
-
-        private void OnSpheroDiscovered(object sender, Robot e)
-        {
-            blkStatus.Text = "Discovered Sphero: " + e.BluetoothName;
-
-            if(mySphero == null)
+            swtConnect.OnContent = "Connecting...";
+            if (swtConnect.IsOn)
             {
-                RobotProvider provider = RobotProvider.GetSharedProvider();
-                provider.ConnectRobot(e);
-                mySphero = (Sphero)e;
+                if(sp.m_robot == null)
+                {
+                    sp.SetupRobotConnection();
+                }
+            }
+            else
+            {
+                sp.ShutdownRobotConnection();
+            }
+
+            swtConnect.OnContent = "Connected";
+        }
+
+        private void sldOrientation_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if(sp.m_robot != null)
+            {
+                sp.m_robot.SetRGBLED(0, 0, 0);
+                sp.m_robot.SetBackLED(1f);
+                sp.m_robot.Roll((int)sldOrientation.Value, 0f);
             }
         }
 
-        private void OnSpheroConnected(object sender, Robot e)
+        private void sldOrientation_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            blkStatus.Text = "Connected to Sphero: " + e.BluetoothName;
-
-            // Lets go ahead and create all of our data stream methods
-            mySphero.SensorControl.AccelerometerUpdatedEvent += SensorControl_AccelerometerUpdatedEvent;
-            mySphero.SensorControl.AttitudeUpdatedEvent += SensorControl_AttitudeUpdatedEvent;
-            mySphero.SensorControl.GyrometerUpdatedEvent += SensorControl_GyrometerUpdatedEvent;
-            mySphero.SensorControl.LocationUpdatedEvent += SensorControl_LocationUpdatedEvent;
-            mySphero.SensorControl.QuaternionUpdatedEvent += SensorControl_QuaternionUpdatedEvent;
-            mySphero.SensorControl.VelocityUpdatedEvent += SensorControl_VelocityUpdatedEvent;
+            if (sp.m_robot != null)
+            {
+                sp.m_robot.SetBackLED(0);
+                sp.m_robot.SetHeading(0);
+            }
         }
 
-        private void OnNoSpheroEvent(object sender, EventArgs e)
+        private void TextBlock_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            blkStatus.Text = "No Sphero connected :(";
+
         }
 
-        private void SensorControl_VelocityUpdatedEvent(object sender, VelocityReading e)
+        private void btnHamburger_Click(object sender, RoutedEventArgs e)
         {
-            sensors.velocity.Add(new velocityData(e));
-        }
-
-        private void SensorControl_QuaternionUpdatedEvent(object sender, QuaternionReading e)
-        {
-            sensors.quaternion.Add(new quaternionData(e));
-        }
-
-        private void SensorControl_LocationUpdatedEvent(object sender, LocationReading e)
-        {
-            sensors.location.Add(new locationData(e));
-        }
-
-        private void SensorControl_GyrometerUpdatedEvent(object sender, GyrometerReading e)
-        {
-            sensors.gryometer.Add(new gyrometerData(e));
-        }
-
-        private void SensorControl_AttitudeUpdatedEvent(object sender, AttitudeReading e)
-        {
-            sensors.attitude.Add(new attitudeData(e));
-        }
-
-        private void SensorControl_AccelerometerUpdatedEvent(object sender, AccelerometerReading e)
-        {
-            sensors.accelerometer.Add(new accelerometerData(e));
+            spltHamburger.IsPaneOpen = !spltHamburger.IsPaneOpen;
         }
     }
 }
