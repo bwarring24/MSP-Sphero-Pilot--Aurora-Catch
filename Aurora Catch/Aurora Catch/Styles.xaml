@@ -26,4 +26,15 @@
         <Setter Property="Foreground" Value="White" />
     </Style>
 
+    <Style TargetType="StackPanel" x:Key="stkRowSetting">
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="Margin" Value="0,10,0,0" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="blkLabel">
+        <Setter Property="TextAlignment" Value="Right" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Grid.Column" Value="0" />
+    </Style>
+    
 </ResourceDictionary>

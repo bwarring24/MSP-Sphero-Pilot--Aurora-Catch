@@ -10,6 +10,21 @@ namespace Aurora_Catch
     class SpheroManager : INotifyPropertyChanged
     {
         public Sphero m_robot = null;
+        private string spheroName = null;
+        private string _GyroReading;
+        private string _LocationReading;
+        private bool spheroConnected = false;
+        private bool calibrationMode = false;
+        public int calibrationAngle = 0;
+        private const string kNoSpheroConnected = "No Sphero Connected";
+
+        //! @brief  the default string to show when connecting to a sphero ({0})
+        private const string kConnectingToSphero = "Connecting to {0}";
+
+        //! @brief  the default string to show when connected to a sphero ({0})
+        private const string kSpheroConnected = "Connected to {0}";
+
+
         public string SpheroName
         {
             get { return spheroName; }
@@ -24,11 +39,6 @@ namespace Aurora_Catch
             }
         }
 
-        private string spheroName = "";
-
-
-
-        private string _GyroReading;
         public string GyroReading
         {
             get
@@ -46,12 +56,22 @@ namespace Aurora_Catch
             }
         }
 
+        public string LocationReading
+        {
+            get
+            {
+                return _LocationReading;
+            }
+            set
+            {
+                _LocationReading = value;
 
-        private bool spheroConnected = false;
-
-        private bool calibrationMode = false;
-
-        public int calibrationAngle = 0;
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("LocationReading"));
+                }
+            }
+        }
 
         public bool SpheroConnected
         {
@@ -73,16 +93,6 @@ namespace Aurora_Catch
         }
 
 
-
-        private const string kNoSpheroConnected = "No Sphero Connected";
-
-        //! @brief  the default string to show when connecting to a sphero ({0})
-        private const string kConnectingToSphero = "Connecting to {0}";
-
-        //! @brief  the default string to show when connected to a sphero ({0})
-        private const string kSpheroConnected = "Connected to {0}";
-
-
         //! @brief  search for a robot to connect to
         public void SetupRobotConnection()
         {
@@ -94,6 +104,7 @@ namespace Aurora_Catch
             provider.ConnectedRobotEvent += OnRobotConnected;
             provider.FindRobots();
         }
+
         public void OnRobotDiscovered(object sender, Robot robot)
         {
 
@@ -109,9 +120,6 @@ namespace Aurora_Catch
             }
         }
 
-
-
-
         private void OnNoRobotsEvent(object sender, EventArgs e)
         {
             SpheroName = "No Sphero Connected";
@@ -121,9 +129,6 @@ namespace Aurora_Catch
         //! @brief  when a robot is connected, get ready to drive!
         private void OnRobotConnected(object sender, Robot robot)
         {
-            //Debug.WriteLine(string.Format("Connected to {0}", robot));
-            //ConnectionToggle.IsOn = true;
-            // ConnectionToggle.OnContent = "Connected";
             SpheroConnected = true;
             m_robot.SetRGBLED(255, 255, 255);
             SpheroName = string.Format(kSpheroConnected, robot.BluetoothName);
@@ -132,7 +137,7 @@ namespace Aurora_Catch
             m_robot.SensorControl.Hz = 10;
 
             m_robot.SensorControl.GyrometerUpdatedEvent += SensorControl_GyrometerUpdatedEvent;
-
+            m_robot.SensorControl.LocationUpdatedEvent += SensorControl_LocationUpdatedEvent;
             //m_robot.CollisionControl.StartDetectionForWallCollisions();
             //m_robot.CollisionControl.CollisionDetectedEvent += OnCollisionDetected;
         }
@@ -140,6 +145,11 @@ namespace Aurora_Catch
         private void SensorControl_GyrometerUpdatedEvent(object sender, GyrometerReading e)
         {
             GyroReading = string.Format("X:{0}" + Environment.NewLine + "Y:{1}" + Environment.NewLine + "Z:{2}", e.X, e.Y, e.Z);
+        }
+
+        private void SensorControl_LocationUpdatedEvent(object sender, LocationReading e)
+        {
+            LocationReading = string.Format("X:{0}" + Environment.NewLine + "Y:{1}" + Environment.NewLine + "Z:{2}", e.X, e.Y);
         }
 
         public void ShutdownRobotConnection()
@@ -171,44 +181,5 @@ namespace Aurora_Catch
                 SpheroName = "Sphero Disconnected";
             }
         }
-
-
-        //public bool RobotNull()
-        //{
-        //    return m_robot == null;
-
-        //}
-
-        //public void Roll(int h, float f)
-        //{
-        //    if (m_robot != null)
-        //    {
-        //        m_robot.Roll(h, f);
-        //    }
-        //}
-        //public void SetHeading(int h)
-        //{
-        //    if(m_robot!=null)
-        //    {
-        //       // calibrationAngle += h;
-        //        m_robot.SetHeading(0);
-        //    }
-        //}
-
-        //public void Calibrate(bool b)
-        //{
-        //    if (m_robot != null)
-        //    {
-        //        if (b)
-        //            m_robot.SetBackLED(100f);
-        //        else
-        //            m_robot.SetBackLED(0f);
-        //        calibrationMode = b;
-        //    }
-        //}
-        //public bool inCalibration()
-        //{
-        //    return calibrationMode;
-        //}
     }
 }

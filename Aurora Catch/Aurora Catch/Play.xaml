@@ -1,0 +1,34 @@
+﻿<Page
+    x:Class="Aurora_Catch.Play"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Aurora_Catch"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Name="blkTitle" Grid.Row="0" Style="{StaticResource HeaderTextBlockStyle}" Text="Play!" />
+
+        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="0,10,0,0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock TextWrapping="Wrap">No need to tap a button just roll your Sphero and the app will do the rest!</TextBlock>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Distance: " TextAlignment="Right"/>
+                <TextBlock Name="blkDistance" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Speed: " TextAlignment="Right" />
+                <TextBlock Name="blkSpeed" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

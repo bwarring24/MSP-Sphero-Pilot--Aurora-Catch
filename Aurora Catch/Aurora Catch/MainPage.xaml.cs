@@ -25,7 +25,6 @@ namespace Aurora_Catch
     {
 
         SpheroManager sp;
-        DispatcherTimer timer = new DispatcherTimer();
 
         public MainPage()
         {
@@ -33,53 +32,32 @@ namespace Aurora_Catch
             sp = new SpheroManager();
             DataContext = sp;
 
-        }
-
-        private void swtConnect_Toggled(object sender, RoutedEventArgs e)
-        {
-            swtConnect.OnContent = "Connecting...";
-            if (swtConnect.IsOn)
-            {
-                if(sp.m_robot == null)
-                {
-                    sp.SetupRobotConnection();
-                }
-            }
-            else
-            {
-                sp.ShutdownRobotConnection();
-            }
-
-            swtConnect.OnContent = "Connected";
-        }
-
-        private void sldOrientation_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            if(sp.m_robot != null)
-            {
-                sp.m_robot.SetRGBLED(0, 0, 0);
-                sp.m_robot.SetBackLED(1f);
-                sp.m_robot.Roll((int)sldOrientation.Value, 0f);
-            }
-        }
-
-        private void sldOrientation_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            if (sp.m_robot != null)
-            {
-                sp.m_robot.SetBackLED(0);
-                sp.m_robot.SetHeading(0);
-            }
-        }
-
-        private void TextBlock_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-
+            frmContent.Navigate(typeof(Home), sp);
         }
 
         private void btnHamburger_Click(object sender, RoutedEventArgs e)
         {
             spltHamburger.IsPaneOpen = !spltHamburger.IsPaneOpen;
+        }
+
+        private void btnHome_Click(object sender, RoutedEventArgs e)
+        {
+            frmContent.Navigate(typeof(Home), sp);
+        }
+
+        private void btnPlay_Click(object sender, RoutedEventArgs e)
+        {
+            frmContent.Navigate(typeof(Play), sp);
+        }
+
+        private void btnReplay_Click(object sender, RoutedEventArgs e)
+        {
+            frmContent.Navigate(typeof(Replay), sp);
+        }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            frmContent.Navigate(typeof(Settings), sp);
         }
     }
 }
