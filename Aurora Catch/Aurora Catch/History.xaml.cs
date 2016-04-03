@@ -20,14 +20,11 @@ namespace Aurora_Catch
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class Replay : Page
+    public sealed partial class History : Page
     {
-        SpheroManager sp;
-        public Replay()
+        public History()
         {
             this.InitializeComponent();
-
-            blkTest.Text = sp.SpheroName.ToString();
         }
     }
 }

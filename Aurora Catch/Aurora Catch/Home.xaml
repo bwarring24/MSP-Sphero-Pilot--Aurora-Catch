@@ -16,7 +16,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    
+
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -27,14 +28,19 @@
 
         <StackPanel Grid.Row="1">
             <TextBlock TextWrapping="Wrap">To get started, pair your Sphero with your phone and then toggle the connect switch.</TextBlock>
-
+            <TextBlock TextWrapping="Wrap">Please calibrate the heading of the Sphero before first use!</TextBlock>
+            
             <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{StaticResource blkLabel}" Text="Connected: " />
                 <ToggleSwitch Name="swtConnect" Toggled="swtConnect_Toggled" OffContent="Not Connected" IsOn="False"  />
             </StackPanel>
             
 
             <Slider Name="sldOrientation" Minimum="0" Maximum="360" StepFrequency="1" ValueChanged="sldOrientation_ValueChanged" PointerExited="sldOrientation_PointerExited"   />
+
+           <!-- <TextBlock Name="blkGyrometer" Text="{Binding GyroReading, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
+            <!--<TextBlock Name="blkLocation" Text="{Binding LocationReading, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
+            <TextBlock Name="blkTest" Text="{Binding QuatReading, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Button Name="btnTest" Content="Update" Click="btnTest_Click" Margin="0, 20,0,0" />
         </StackPanel>
     </Grid>
 </Page>

@@ -10,21 +10,6 @@ namespace Aurora_Catch
     class SpheroManager : INotifyPropertyChanged
     {
         public Sphero m_robot = null;
-        private string spheroName = null;
-        private string _GyroReading;
-        private string _LocationReading;
-        private bool spheroConnected = false;
-        private bool calibrationMode = false;
-        public int calibrationAngle = 0;
-        private const string kNoSpheroConnected = "No Sphero Connected";
-
-        //! @brief  the default string to show when connecting to a sphero ({0})
-        private const string kConnectingToSphero = "Connecting to {0}";
-
-        //! @brief  the default string to show when connected to a sphero ({0})
-        private const string kSpheroConnected = "Connected to {0}";
-
-
         public string SpheroName
         {
             get { return spheroName; }
@@ -39,6 +24,11 @@ namespace Aurora_Catch
             }
         }
 
+        private string spheroName = "";
+
+
+
+        private string _GyroReading;
         public string GyroReading
         {
             get
@@ -56,22 +46,48 @@ namespace Aurora_Catch
             }
         }
 
-        public string LocationReading
+        private string _AccReading;
+        public string AccReading
         {
             get
             {
-                return _LocationReading;
+                return _AccReading;
             }
             set
             {
-                _LocationReading = value;
+                _AccReading = value;
 
                 if (PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs("LocationReading"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("AccReading"));
                 }
             }
         }
+
+        private string _AttReading;
+        public string AttReading
+        {
+            get
+            {
+                return _AttReading;
+            }
+            set
+            {
+                _AttReading = value;
+
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs("AttReading"));
+                }
+            }
+        }
+
+
+        private bool spheroConnected = false;
+
+        private bool calibrationMode = false;
+
+        public int calibrationAngle = 0;
 
         public bool SpheroConnected
         {
@@ -89,8 +105,18 @@ namespace Aurora_Catch
         public event PropertyChangedEventHandler PropertyChanged;
         public SpheroManager()
         {
-            //SetupRobotConnection();
+            SetupRobotConnection();
         }
+
+
+
+        private const string kNoSpheroConnected = "No Sphero Connected";
+
+        //! @brief  the default string to show when connecting to a sphero ({0})
+        private const string kConnectingToSphero = "Connecting to {0}";
+
+        //! @brief  the default string to show when connected to a sphero ({0})
+        private const string kSpheroConnected = "Connected to {0}";
 
 
         //! @brief  search for a robot to connect to
@@ -104,7 +130,6 @@ namespace Aurora_Catch
             provider.ConnectedRobotEvent += OnRobotConnected;
             provider.FindRobots();
         }
-
         public void OnRobotDiscovered(object sender, Robot robot)
         {
 
@@ -120,6 +145,9 @@ namespace Aurora_Catch
             }
         }
 
+
+
+
         private void OnNoRobotsEvent(object sender, EventArgs e)
         {
             SpheroName = "No Sphero Connected";
@@ -129,6 +157,9 @@ namespace Aurora_Catch
         //! @brief  when a robot is connected, get ready to drive!
         private void OnRobotConnected(object sender, Robot robot)
         {
+            //Debug.WriteLine(string.Format("Connected to {0}", robot));
+            //ConnectionToggle.IsOn = true;
+            // ConnectionToggle.OnContent = "Connected";
             SpheroConnected = true;
             m_robot.SetRGBLED(255, 255, 255);
             SpheroName = string.Format(kSpheroConnected, robot.BluetoothName);
@@ -137,19 +168,26 @@ namespace Aurora_Catch
             m_robot.SensorControl.Hz = 10;
 
             m_robot.SensorControl.GyrometerUpdatedEvent += SensorControl_GyrometerUpdatedEvent;
-            m_robot.SensorControl.LocationUpdatedEvent += SensorControl_LocationUpdatedEvent;
+            //m_robot.SensorControl.AccelerometerUpdatedEvent += SensorControl_AccelerometerUpdatedEvent;
+            //m_robot.SensorControl.AttitudeUpdatedEvent += SensorControl_AttitudeUpdatedEvent;
+            
             //m_robot.CollisionControl.StartDetectionForWallCollisions();
             //m_robot.CollisionControl.CollisionDetectedEvent += OnCollisionDetected;
         }
 
+        //private void SensorControl_AttitudeUpdatedEvent(object sender, AttitudeReading e)
+        //{
+        //    AttReading = string.Format("ATT" + Environment.NewLine + "PITCH:{0}" + Environment.NewLine + "YAW:{1}" + Environment.NewLine + "ROLL:{2}", e.Pitch, e.Yaw, e.Roll);
+        //}
+
+        //private void SensorControl_AccelerometerUpdatedEvent(object sender, AccelerometerReading e)
+        //{
+        //    AccReading = string.Format("ACC" + Environment.NewLine + "X:{0}" + Environment.NewLine + "Y:{1}" + Environment.NewLine + "Z:{2}", e.X, e.Y, e.Z);
+        //}
+
         private void SensorControl_GyrometerUpdatedEvent(object sender, GyrometerReading e)
         {
-            GyroReading = string.Format("X:{0}" + Environment.NewLine + "Y:{1}" + Environment.NewLine + "Z:{2}", e.X, e.Y, e.Z);
-        }
-
-        private void SensorControl_LocationUpdatedEvent(object sender, LocationReading e)
-        {
-            LocationReading = string.Format("X:{0}" + Environment.NewLine + "Y:{1}" + Environment.NewLine + "Z:{2}", e.X, e.Y);
+            GyroReading = string.Format("Gyro"+ Environment.NewLine +"X:{0}" + Environment.NewLine + "Y:{1}" + Environment.NewLine + "Z:{2}", e.X, e.Y, e.Z);
         }
 
         public void ShutdownRobotConnection()
@@ -181,5 +219,43 @@ namespace Aurora_Catch
                 SpheroName = "Sphero Disconnected";
             }
         }
+
+
+        //public bool RobotNull()
+        //{
+        //    return m_robot == null;
+
+        //}
+
+        //public void Roll(int h, float f)
+        //{
+        //    if (m_robot != null)
+        //    {
+        //        m_robot.Roll(h, f);
+        //    }
+        //}
+        //public void SetHeading(int h)
+        //{
+        //    if(m_robot!=null)
+        //    {
+        //       // calibrationAngle += h;
+        //        m_robot.SetHeading(0);
+        //    }
+        //}
+
+        //public void Calibrate(bool b)
+        //{
+        //    if (m_robot != null)
+        //    {
+        //        if (b)
+        //            m_robot.SetBackLED(100f);
+        //        else
+        //            m_robot.SetBackLED(0f);
+        //        calibrationMode = b;
+        //    }
+        //}
+        //public bool inCalibration()
+        //{
+        //    return calibrationMode;
     }
 }
