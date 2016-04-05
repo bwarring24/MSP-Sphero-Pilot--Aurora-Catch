@@ -22,12 +22,9 @@ namespace Aurora_Catch
     /// </summary>
     public sealed partial class Replay : Page
     {
-        SpheroManager sp;
         public Replay()
         {
             this.InitializeComponent();
-
-            blkTest.Text = sp.SpheroName.ToString();
         }
     }
 }
