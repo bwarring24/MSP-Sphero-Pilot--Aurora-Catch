@@ -68,31 +68,7 @@
                 </StackPanel>
             </SplitView.Pane>
             <SplitView.Content>
-                <!--<Frame Name="frmContent" VerticalAlignment="Top" Margin="10,0,0,0" />-->
-                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Name="blkTitle" Grid.Row="0" Style="{StaticResource HeaderTextBlockStyle}" Text="Home" />
-
-                    <StackPanel Grid.Row="1">
-                        <TextBlock TextWrapping="Wrap">To get started, pair your Sphero with your phone and then toggle the connect switch.</TextBlock>
-                        <TextBlock TextWrapping="Wrap">Please calibrate the heading of the Sphero before first use!</TextBlock>
-                        
-                        <Slider Name="sldOrientation" Minimum="0" Maximum="360" StepFrequency="1" ValueChanged="sldOrientation_ValueChanged" PointerExited="sldOrientation_PointerExited"   />
-
-
-                        <TextBlock Name="blkGyrometer" Text="{Binding AttReading, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Name="blkLocation" Text="{Binding AccReading, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <!--<TextBlock Name="blkTest" Text="{Binding QuatReading, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
-
-                        <TextBlock Name="blkTriggered" />
-                        <Button Name="btnTest" Content="Update" Click="btnTest_Click" Margin="0, 20,0,0" />
-                        <Button Name="btnRoll" Content="Roll" Click="btnRoll_Click" />
-                    </StackPanel>
-                </Grid>
+                <Frame Name="frmContent" VerticalAlignment="Top" Margin="10,0,0,0" />
             </SplitView.Content>
         </SplitView>
     </Grid>
