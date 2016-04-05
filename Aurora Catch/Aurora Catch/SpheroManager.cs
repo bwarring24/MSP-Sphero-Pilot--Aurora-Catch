@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace Aurora_Catch
 {
-    class SpheroManager : INotifyPropertyChanged
+    public class SpheroManager : INotifyPropertyChanged
     {
         public Sphero m_robot = null;
         public string SpheroName
@@ -199,7 +199,9 @@ namespace Aurora_Catch
                     m_robot.SensorControl.StopAll();
                     m_robot.Sleep();
                 }
-                catch { }
+                catch {
+
+                }
                 // temporary while I work on Disconnect.
                 //m_robot.Disconnect();
                 //ConnectionToggle.OffContent = "Disconnected";
