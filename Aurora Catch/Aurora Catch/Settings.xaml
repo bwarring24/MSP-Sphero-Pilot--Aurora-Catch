@@ -45,6 +45,11 @@
                 <TextBlock Style="{StaticResource blkLabel}" Text="Avoid Walls: " />
                 <ToggleSwitch Name="swtAvoidWalls" OnContent="Yes" IsOn="True" />
             </StackPanel>
+
+            <StackPanel Style="{StaticResource stkRowSetting}">
+                <TextBlock Style="{StaticResource blkLabel}" Text="Avoid Walls: " />
+                <ToggleSwitch Name="swtConnect" OnContent="Connected" Toggled="swtConnect_Toggled"  />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>

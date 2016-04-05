@@ -22,9 +22,30 @@ namespace Aurora_Catch
     /// </summary>
     public sealed partial class Settings : Page
     {
+
+        SpheroManager sp = MainPage.sp;
         public Settings()
         {
             this.InitializeComponent();
+
+            if (sp.SpheroConnected)
+            {
+                swtConnect.IsOn = true;
+                swtConnect.OnContent = "Connected";
+            }
+            else
+            {
+                swtConnect.IsOn = false;
+                swtConnect.OnContent = "Disconnected";
+            }
+        }
+
+        private void swtConnect_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (swtConnect.IsOn)
+            {
+                sp.ShutdownRobotConnection();
+            }
         }
     }
 }
