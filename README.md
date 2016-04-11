@@ -24,4 +24,12 @@ I have also started to do some tests rolling the Sphero across the floor and my 
 
 
 ###Week 3 Update:
-I had originally wanted to be able to roll Sphero in any direction, but I had encountered issues since Sphero is always keeping it's heading at the same location upon rotation of the ball. With the Sphero API we are given access to an attitude property which would give us the following: pitch, row, and yaw. I would be most interested in the yaw since that gives me the rotation and I could update the heading. I was
+I had originally wanted to be able to roll Sphero in any direction, but I had encountered issues since Sphero is always keeping it's heading at the same location upon rotation of the ball. With the Sphero API we are given access to an attitude property which would give us the following: pitch, row, and yaw. I would be most interested in the yaw since that gives me the rotation and I could update the heading. Unfortunately this property is not completed in the API. So for now, you can only roll Sphero in the current heading direction.
+
+To calculate how much Sphero should roll I cam up with an equation for speed and for distance. Below are the two equations.
+Sphero Speed =( (float)(Math.Sqrt((accY * 250))) / 4) / 10);
+Distance in time = ((int)(Math.Sqrt((accY * 250))) - 1) / 4);
+
+I have manually calculated how far a ball would roll under normal force applied to it to learn how fast the Sphero should roll to look realistic. I figured about 1ft every 250ms. From this I multiply by the force given to me by the accelerometer and then divide to lower the outcome number.
+
+As of now Sphero rolls when you roll it and it will roll back, but there is a bug where it may start to roll back and force for some reason and I'm looking inoto fixing this bug soon.
